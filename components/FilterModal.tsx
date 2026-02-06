@@ -6,11 +6,10 @@ import {
   Pressable,
   Modal,
   ScrollView,
-  Switch,
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
-import { SessionFilters, CUISINE_OPTIONS, PRICE_OPTIONS } from '../types';
+import { SessionFilters, CUISINE_OPTIONS, PRICE_OPTIONS, TransactionFilter } from '../types';
 import { Ionicons } from '@expo/vector-icons';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -26,8 +25,14 @@ interface FilterModalProps {
 const defaultFilters: SessionFilters = {
   cuisines: [],
   priceRange: [],
-  deliveryOnly: false,
+  transactionType: 'any',
 };
+
+const TRANSACTION_OPTIONS: { value: TransactionFilter; label: string; icon: string }[] = [
+  { value: 'any', label: 'Any', icon: 'restaurant' },
+  { value: 'delivery', label: 'Delivery', icon: 'bicycle' },
+  { value: 'pickup', label: 'Pickup', icon: 'bag-handle' },
+];
 
 export default function FilterModal({
   visible,
@@ -85,23 +90,41 @@ export default function FilterModal({
         </View>
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-          {/* Delivery Option */}
+          {/* Order Type */}
           <View style={styles.section}>
-            <View style={styles.switchRow}>
-              <View>
-                <Text style={styles.sectionTitle}>Delivery / Pickup Only</Text>
-                <Text style={styles.sectionSubtitle}>
-                  Show only restaurants that deliver or offer pickup
-                </Text>
-              </View>
-              <Switch
-                value={filters.deliveryOnly}
-                onValueChange={(value) =>
-                  setFilters((prev) => ({ ...prev, deliveryOnly: value }))
-                }
-                trackColor={{ false: '#ddd', true: '#FF6B6B' }}
-                thumbColor="#fff"
-              />
+            <Text style={styles.sectionTitle}>Order Type</Text>
+            <Text style={styles.sectionSubtitle}>
+              How do you want to get your food?
+            </Text>
+            <View style={styles.transactionRow}>
+              {TRANSACTION_OPTIONS.map((option) => (
+                <Pressable
+                  key={option.value}
+                  style={[
+                    styles.transactionButton,
+                    filters.transactionType === option.value &&
+                      styles.transactionButtonActive,
+                  ]}
+                  onPress={() =>
+                    setFilters((prev) => ({ ...prev, transactionType: option.value }))
+                  }
+                >
+                  <Ionicons
+                    name={option.icon as any}
+                    size={20}
+                    color={filters.transactionType === option.value ? '#fff' : '#666'}
+                  />
+                  <Text
+                    style={[
+                      styles.transactionButtonText,
+                      filters.transactionType === option.value &&
+                        styles.transactionButtonTextActive,
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </Pressable>
+              ))}
             </View>
           </View>
 
@@ -245,10 +268,30 @@ const styles = StyleSheet.create({
     color: '#666',
     marginBottom: 12,
   },
-  switchRow: {
+  transactionRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    gap: 12,
+  },
+  transactionButton: {
+    flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    borderRadius: 12,
+    backgroundColor: '#f5f5f5',
+    gap: 6,
+  },
+  transactionButtonActive: {
+    backgroundColor: '#FF6B6B',
+  },
+  transactionButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#666',
+  },
+  transactionButtonTextActive: {
+    color: '#fff',
   },
   priceRow: {
     flexDirection: 'row',

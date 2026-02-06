@@ -52,11 +52,13 @@ export default function HomeScreen() {
     setError(null);
 
     try {
-      // Add location to filters
+      // Add location to filters (only if available, Firestore doesn't accept undefined)
       const filtersWithLocation: SessionFilters = {
         ...filters,
-        location: location ?? undefined,
       };
+      if (location) {
+        filtersWithLocation.location = location;
+      }
 
       console.log('Fetching restaurants with filters:', filtersWithLocation);
 
@@ -123,7 +125,7 @@ export default function HomeScreen() {
               style={styles.heartIcon}
             />
           </View>
-          <Text style={styles.title}>Restaurant Matcher</Text>
+          <Text style={styles.title}>ForkedYeah</Text>
           <Text style={styles.subtitle}>
             Find where to eat together
           </Text>

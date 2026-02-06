@@ -464,12 +464,13 @@ function filterRestaurants(restaurants: Restaurant[], filters: SessionFilters): 
     filtered = filtered.filter((r) => r.price && allowedPrices.includes(r.price));
   }
 
-  // Filter by delivery
-  if (filters.deliveryOnly) {
-    filtered = filtered.filter((r) =>
-      r.transactions?.includes('delivery') || r.transactions?.includes('pickup')
-    );
+  // Filter by transaction type
+  if (filters.transactionType === 'delivery') {
+    filtered = filtered.filter((r) => r.transactions?.includes('delivery'));
+  } else if (filters.transactionType === 'pickup') {
+    filtered = filtered.filter((r) => r.transactions?.includes('pickup'));
   }
+  // 'any' means no filtering
 
   return filtered;
 }

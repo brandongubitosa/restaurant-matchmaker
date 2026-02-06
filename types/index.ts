@@ -33,11 +33,14 @@ export interface LocationData {
   source: 'gps' | 'default';
 }
 
+// Transaction type filter
+export type TransactionFilter = 'any' | 'delivery' | 'pickup';
+
 // Session filters
 export interface SessionFilters {
   cuisines: string[];
   priceRange: string[]; // ['1', '2', '3', '4'] for $, $$, $$$, $$$$
-  deliveryOnly: boolean;
+  transactionType: TransactionFilter;
   location?: LocationData;
 }
 

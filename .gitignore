@@ -40,3 +40,4 @@ functions/.env
 # generated native folders
 /ios
 /android
+.vercel

@@ -74,8 +74,8 @@ export default function SessionScreen() {
     try {
       await Share.share({
         message: Platform.OS === 'ios'
-          ? `Join me on Restaurant Matcher! Use code: ${sessionCode}\n\nOr open: ${link}`
-          : `Join me on Restaurant Matcher! Use code: ${sessionCode}`,
+          ? `Join me on ForkedYeah! Use code: ${sessionCode}\n\nOr open: ${link}`
+          : `Join me on ForkedYeah! Use code: ${sessionCode}`,
         url: Platform.OS === 'ios' ? link : undefined,
       });
     } catch (err) {
