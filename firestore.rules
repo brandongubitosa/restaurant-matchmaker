@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Sessions collection
+    match /sessions/{sessionId} {
+      // Anyone can read a session (needed for joining)
+      allow read: if true;
+
+      // Anyone can create a session
+      allow create: if true;
+
+      // Only the creator or partner can update
+      allow update: if true;
+
+      // Swipes subcollection
+      match /swipes/{restaurantId} {
+        allow read, write: if true;
+      }
+    }
+  }
+}
