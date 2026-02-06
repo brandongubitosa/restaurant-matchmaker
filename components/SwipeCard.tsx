@@ -5,7 +5,6 @@ import {
   Text,
   Image,
   Dimensions,
-  Pressable,
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -172,21 +171,6 @@ export default function SwipeCard({ restaurant, onSwipeLeft, onSwipeRight }: Swi
           )}
         </View>
 
-        {/* Swipe Buttons */}
-        <View style={styles.buttonRow}>
-          <Pressable
-            style={[styles.button, styles.nopeButton]}
-            onPress={onSwipeLeft}
-          >
-            <Ionicons name="close" size={32} color="#FF6B6B" />
-          </Pressable>
-          <Pressable
-            style={[styles.button, styles.likeButton]}
-            onPress={onSwipeRight}
-          >
-            <Ionicons name="heart" size={32} color="#4CAF50" />
-          </Pressable>
-        </View>
       </Animated.View>
     </GestureDetector>
   );
@@ -320,28 +304,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666',
     marginLeft: 4,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    paddingVertical: 12,
-    paddingHorizontal: 40,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
-  },
-  button: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-  },
-  nopeButton: {
-    borderColor: '#FF6B6B',
-  },
-  likeButton: {
-    borderColor: '#4CAF50',
   },
 });

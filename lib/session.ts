@@ -145,8 +145,10 @@ export async function recordSwipe(
     }
     const sessionData = sessionDoc.data() as Session;
 
-    // Check if user has already completed their swipes
-    const currentCount = isCreator ? sessionData.creatorSwipeCount : sessionData.partnerSwipeCount;
+    // Check if user has already completed their swipes (default to 0 for backwards compatibility)
+    const currentCount = isCreator
+      ? (sessionData.creatorSwipeCount ?? 0)
+      : (sessionData.partnerSwipeCount ?? 0);
     if (currentCount >= MAX_SWIPES) {
       throw new Error('Maximum swipes reached');
     }
@@ -246,15 +248,7 @@ export async function endSession(sessionId: string): Promise<void> {
   });
 }
 
-// Generate invite link
+// Generate invite link (web URL for sharing)
 export function generateInviteLink(sessionId: string): string {
-  // This will work with Expo deep linking
-  return `restaurantmatchmaker://invite/${sessionId}`;
-}
-
-// Generate web-compatible invite link (for sharing outside the app)
-export function generateWebInviteLink(sessionId: string): string {
-  // You can set up a web redirect page or use Expo's branch.io/Firebase Dynamic Links
-  // For now, we'll use a simple format that the app can handle
-  return `https://restaurantmatcher.app/invite/${sessionId}`;
+  return `https://restaurantmatchmaker.vercel.app/invite/${sessionId}`;
 }
